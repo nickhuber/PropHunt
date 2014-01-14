@@ -1,4 +1,4 @@
-// Props underwater should die on this level
+-- Props underwater should die on this level
 if SERVER then
 	last_hurt_interval = 0
 	hook.Add("Think", "PH_DePort_Think", function()

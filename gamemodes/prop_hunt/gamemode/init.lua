@@ -1,21 +1,19 @@
-print(GetConVarNumber("HUNTER_KILL_BONUS"))
-
-// Send the required lua files to the client
+-- Send the required lua files to the client
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("sh_config.lua")
 AddCSLuaFile("sh_init.lua")
 AddCSLuaFile("sh_player.lua")
 
-// If there is a mapfile send it to the client (sometimes servers want to change settings for certain maps)
+-- If there is a mapfile send it to the client (sometimes servers want to change settings for certain maps)
 if file.Exists("../gamemodes/prop_hunt/gamemode/maps/"..game.GetMap()..".lua", "LUA") then
 	AddCSLuaFile("maps/"..game.GetMap()..".lua")
 end
 
 
-// Include the required lua files
+-- Include the required lua files
 include("sh_init.lua")
 
-// Server only constants
+-- Server only constants
 EXPLOITABLE_DOORS = {
 	"func_door",
 	"prop_door_rotating", 
@@ -26,7 +24,7 @@ USABLE_PROP_ENTITIES = {
 	"prop_physics_multiplayer"
 }
 
-// Send the required resources to the client
+-- Send the required resources to the client
 for _, taunt in pairs(HUNTER_TAUNTS) do resource.AddFile("sound/"..taunt) end
 for _, taunt in pairs(PROP_TAUNTS) do resource.AddFile("sound/"..taunt) end
 
@@ -34,7 +32,7 @@ function GM:AllowPlayerPickup(player, entity)
 	return false
 end
 
-// Called alot
+-- Called alot
 function GM:CheckPlayerDeathRoundEnd()
 	if !GAMEMODE.RoundBased || !GAMEMODE:InRound() then 
 		return
@@ -55,21 +53,27 @@ function GM:CheckPlayerDeathRoundEnd()
 end
 
 
-// Called when an entity takes damage
+-- Called when an entity takes damage
 function EntityTakeDamage(ent, dmginfo)
-    local att = dmginfo:GetAttacker()
-	if GAMEMODE:InRound() && ent && ent:GetClass() != "ph_prop" && !ent:IsPlayer() && att && att:IsPlayer() && att:Team() == TEAM_HUNTERS && att:Alive() then
+	local att = dmginfo:GetAttacker()
+	if !GAMEMODE:InRound() || !ent || !att || !att:IsPlayer() || !(att:Team() == TEAM_HUNTERS) || !att:Alive() then
+		return
+	end
+	if ent:GetClass() != "ph_prop" && !ent:IsPlayer() then
 		att:SetHealth(att:Health() - GetConVar("HUNTER_FIRE_PENALTY"):GetInt())
 		if att:Health() <= 0 then
 			MsgAll(att:Name() .. " felt guilty for hurting so many innocent props and committed suicide\n")
 			att:Kill()
 		end
 	end
+	if ent:IsPlayer() && ent:Team() == TEAM_PROPS then
+		dmginfo:ScaleDamage(0.33)
+	end
 end
 hook.Add("EntityTakeDamage", "PH_EntityTakeDamage", EntityTakeDamage)
 
 
-// Called when player tries to pickup a weapon
+-- Called when player tries to pickup a weapon
 function GM:PlayerCanPickupWeapon(pl, ent)
  	if pl:Team() != TEAM_HUNTERS then
 		return false
@@ -79,7 +83,7 @@ function GM:PlayerCanPickupWeapon(pl, ent)
 end
 
 
-// Called when player needs a model
+-- Called when player needs a model
 function GM:PlayerSetModel(pl)
 	local player_model = "models/Gibs/Antlion_gib_small_3.mdl"
 	
@@ -92,7 +96,7 @@ function GM:PlayerSetModel(pl)
 end
 
 
-// Called when a player tries to use an object
+-- Called when a player tries to use an object
 function GM:PlayerUse(pl, ent)
 	if !pl:Alive() || pl:Team() == TEAM_SPECTATOR then return false end
 	
@@ -109,8 +113,6 @@ function GM:PlayerUse(pl, ent)
 			pl.ph_prop:SetModel(ent:GetModel())
 			pl.ph_prop:SetSkin(ent:GetSkin())
 			pl.ph_prop:SetSolid(SOLID_BSP)
-			pl.ph_prop:SetPos(pl:GetPos() - Vector(0, 0, ent:OBBMins().z))
-			pl.ph_prop:SetAngles(pl:GetAngles())
 			
 			local hullxymax = math.Round(math.Max(ent:OBBMaxs().x, ent:OBBMaxs().y))
 			local hullxymin = hullxymax * -1
@@ -128,7 +130,7 @@ function GM:PlayerUse(pl, ent)
 		end
 	end
 	
-	// Prevent the door exploit
+	-- Prevent the door exploit
 	if table.HasValue(EXPLOITABLE_DOORS, ent:GetClass()) && pl.last_door_time && pl.last_door_time + 1 > CurTime() then
 		return false
 	end
@@ -138,7 +140,7 @@ function GM:PlayerUse(pl, ent)
 end
 
 
-// Called when player presses [F3]. Plays a taunt for their team
+-- Called when player presses [F3]. Plays a taunt for their team
 function GM:ShowSpare1(pl)
 	if GAMEMODE:InRound() && pl:Alive() && (pl:Team() == TEAM_HUNTERS || pl:Team() == TEAM_PROPS) && pl.last_taunt_time + TAUNT_DELAY <= CurTime() && #PROP_TAUNTS > 1 && #HUNTER_TAUNTS > 1 then
 		repeat
@@ -157,21 +159,20 @@ function GM:ShowSpare1(pl)
 end
 
 
-// Called when the gamemode is initialized
+-- Called when the gamemode is initialized
 function Initialize()
 	game.ConsoleCommand("mp_flashlight 0\n")
 end
 hook.Add("Initialize", "PH_Initialize", Initialize)
 
-
-// Called when a player leaves
+-- Called when a player leaves
 function PlayerDisconnected(pl)
 	pl:RemoveProp()
 end
 hook.Add("PlayerDisconnected", "PH_PlayerDisconnected", PlayerDisconnected)
 
 
-// Called when the players spawns
+-- Called when the players spawns
 function PlayerSpawn(pl)
 	pl:Blind(false)
 	pl:RemoveProp()
@@ -184,12 +185,13 @@ function PlayerSpawn(pl)
 	umsg.Start("ResetHull", pl)
 	umsg.End()
 	
-	pl:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
+	--pl:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
+	pl:SetCollisionGroup(COLLISION_GROUP_INTERACTIVE)
 end
 hook.Add("PlayerSpawn", "PH_PlayerSpawn", PlayerSpawn)
 
 
-// Removes all weapons on a map
+-- Removes all weapons on a map
 function RemoveWeaponsAndItems()
 	for _, wep in pairs(ents.FindByClass("weapon_*")) do
 		wep:Remove()
@@ -202,7 +204,7 @@ end
 hook.Add("InitPostEntity", "PH_RemoveWeaponsAndItems", RemoveWeaponsAndItems)
 
 
-// Called when round ends
+-- Called when round ends
 function RoundEnd()
 	for _, pl in pairs(team.GetPlayers(TEAM_HUNTERS)) do
 		pl:Blind(false)
@@ -212,7 +214,7 @@ end
 hook.Add("RoundEnd", "PH_RoundEnd", RoundEnd)
 
 
-// This is called when the round time ends (props win)
+-- This is called when the round time ends (props win)
 function GM:RoundTimerEnd()
 	if !GAMEMODE:InRound() then
 		return
@@ -222,7 +224,7 @@ function GM:RoundTimerEnd()
 end
 
 
-// Called before start of round
+-- Called before start of round
 function GM:OnPreRoundStart(num)
 	game.CleanUpMap()
 	
@@ -244,3 +246,39 @@ function GM:OnPreRoundStart(num)
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
 end
+
+
+function GM:KeyPress(player, key)
+	if(!player:Alive()) then
+		return
+	end
+        if(player:Team() != TEAM_PROPS) then
+                 return
+	end
+        if(key == IN_ATTACK ) then
+		player.ph_prop.prop_angle = player:EyeAngles()
+	end
+	if(key == IN_ATTACK2) then
+		player.ph_prop.prop_angle = nil
+	end
+end
+
+
+function GM:Think()
+
+        -- Calculate the location of every Prop's prop entity.
+        for _, pl in pairs(team.GetPlayers(TEAM_PROPS)) do
+        
+                -- Check for a valid player/prop, and if they aren't freezing their prop.
+                -- if pl && pl:IsValid() && pl:Alive() && pl.ph_prop && pl.ph_prop:IsValid() && !(pl:KeyDown(IN_ATTACK2) && pl:GetVelocity():Length() == 0) then
+                if pl && pl:IsValid() && pl:Alive() && pl.ph_prop && pl.ph_prop:IsValid() then
+                        pl.ph_prop:SetPos(pl:GetPos() - Vector(0, 0, pl.ph_prop:OBBMins().z))
+			if pl.ph_prop.prop_angle != nil then
+				pl.ph_prop:SetAngles(Angle(0, pl.ph_prop.prop_angle.y, 0))
+			else
+				pl.ph_prop:SetAngles(Angle(0, pl:EyeAngles().y, 0))
+			end
+                end
+        end
+end
+

@@ -1,8 +1,7 @@
-// Include the needed files
+-- Include the needed files
 include("sh_init.lua")
-//include("cl_hints.lua")
 
-// Decides where  the player view should be (forces third person for props)
+-- Decides where  the player view should be (forces third person for props)
 function GM:CalcView(pl, origin, angles, fov)
 	local view = {} 
 	
@@ -15,10 +14,10 @@ function GM:CalcView(pl, origin, angles, fov)
 	end
 	
  	view.origin = origin 
- 	view.angles	= angles 
+ 	view.angles = angles 
  	view.fov = fov 
  	
- 	// Give the active weapon a go at changing the viewmodel position 
+ 	-- Give the active weapon a go at changing the viewmodel position 
 	if pl:Team() == TEAM_PROPS && pl:Alive() then
 		view.origin = origin + Vector(0, 0, hullz - 60) + (angles:Forward() * -80)
 	else
@@ -26,12 +25,12 @@ function GM:CalcView(pl, origin, angles, fov)
 	 	if wep && wep != NULL then 
 	 		local func = wep.GetViewModelPosition 
 	 		if func then 
-	 			view.vm_origin, view.vm_angles = func(wep, origin*1, angles*1) // Note: *1 to copy the object so the child function can't edit it. 
+	 			view.vm_origin, view.vm_angles = func(wep, origin*1, angles*1) -- Note: *1 to copy the object so the child function can't edit it. 
 	 		end
 	 		 
 	 		local func = wep.CalcView 
 	 		if func then 
-	 			view.origin, view.angles, view.fov = func(wep, pl, origin*1, angles*1, fov) // Note: *1 to copy the object so the child function can't edit it. 
+	 			view.origin, view.angles, view.fov = func(wep, pl, origin*1, angles*1, fov) -- Note: *1 to copy the object so the child function can't edit it. 
 	 		end 
 	 	end
 	end
@@ -40,7 +39,7 @@ function GM:CalcView(pl, origin, angles, fov)
 end
 
 
-// Draw round timeleft and hunter release timeleft
+-- Draw round timeleft and hunter release timeleft
 function HUDPaint()
 	if GetGlobalBool("InRound", false) then
 		local blindlock_time_left = (GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt() - (CurTime() - GetGlobalFloat("RoundStartTime", 0))) + 1
@@ -65,10 +64,10 @@ end
 hook.Add("HUDPaint", "PH_HUDPaint", HUDPaint)
 
 
-// Called immediately after starting the gamemode 
+-- Called immediately after starting the gamemode 
 function Initialize()
 	hullz = 80
-	//surface.CreateFont("Arial", 14, 1200, true, false, "ph_arial")
+	--surface.CreateFont("Arial", 14, 1200, true, false, "ph_arial")
 	surface.CreateFont( "MyFont",
 	{
 		font	= "Arial",
@@ -81,7 +80,7 @@ end
 hook.Add("Initialize", "PH_Initialize", Initialize)
 
 
-// Resets the player hull
+-- Resets the player hull
 function ResetHull(um)
 	if LocalPlayer() && LocalPlayer():IsValid() then
 		LocalPlayer():ResetHull()
@@ -91,14 +90,14 @@ end
 usermessage.Hook("ResetHull", ResetHull)
 
 
-// Sets the local blind variable to be used in CalcView
+-- Sets the local blind variable to be used in CalcView
 function SetBlind(um)
 	blind = um:ReadBool()
 end
 usermessage.Hook("SetBlind", SetBlind)
 
 
-// Sets the player hull
+-- Sets the player hull
 function SetHull(um)
 	hullxy = um:ReadLong()
 	hullz = um:ReadLong()
@@ -109,3 +108,9 @@ function SetHull(um)
 	LocalPlayer():SetHealth(new_health)
 end
 usermessage.Hook("SetHull", SetHull)
+
+
+function GM:HUDDrawTargetID()
+	return false
+end
+

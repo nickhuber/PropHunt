@@ -1,27 +1,27 @@
-// Include the required lua files
+-- Include the required lua files
 include("sh_config.lua")
 include("sh_player.lua")
 
 
-// Include the configuration for this map
+-- Include the configuration for this map
 if file.Exists("../gamemodes/prop_hunt/gamemode/maps/"..game.GetMap()..".lua", "LUA") || file.Exists("../lua_temp/prop_hunt/gamemode/maps/"..game.GetMap()..".lua", "LUA") then
 	include("maps/"..game.GetMap()..".lua")
 end
 
 
-// Fretta!
+-- Fretta!
 DeriveGamemode("fretta")
 IncludePlayerClasses()
 
 
-// Information about the gamemode
+-- Information about the gamemode
 GM.Name		= "Prop Hunt"
-GM.Author	= "Kow@lski (Original by AMT)"
+GM.Author	= "Nick Huber, based off of Kow@lski (Original by AMT)"
 GM.Email	= "kowalski.7cc@xspacesoft.com"
-GM.Website	= "http://xspacesoft.github.io/PropHunt/"
+GM.Website	= "https://github.com/nickhuber/PropHunt"
 
 
-// Help info
+-- Help info
 GM.Help = [[Prop Hunt is a twist on the classic backyard game Hide and Seek.
 
 As a Prop you have ]]..GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt()..[[ seconds to replicate an existing prop on the map and then find a good hiding spot. Press [E] to replicate the prop you are looking at. Your health is scaled based on the size of the prop you replicate.
@@ -31,25 +31,26 @@ As a Hunter you will be blindfolded for the first ]]..GetConVar("HUNTER_BLINDLOC
 Both teams can press [F3] to play a taunt sound.]]
 
 
-// Fretta configuration
-GM.AddFragsToTeamScore		= true
-GM.CanOnlySpectateOwnTeam 	= true
-GM.Data 					= {}
+-- Fretta configuration
+GM.AddFragsToTeamScore			= true
+GM.CanOnlySpectateOwnTeam 		= true
+GM.Data 				= {}
 GM.EnableFreezeCam			= true
 GM.GameLength				= GAME_TIME
-GM.NoAutomaticSpawning		= true
-GM.NoNonPlayerPlayerDamage	= true
-GM.NoPlayerPlayerDamage 	= true
+GM.NoAutomaticSpawning			= true
+GM.NoNonPlayerPlayerDamage		= true
+GM.NoPlayerPlayerDamage 		= false
+GM.NoPlayerTeamDamage			= true
 GM.RoundBased				= true
 GM.RoundLimit				= ROUNDS_PER_MAP
 GM.RoundLength 				= ROUND_TIME
-GM.RoundPreStartTime		= 0
+GM.RoundPreStartTime			= 0
 GM.SelectModel				= false
 GM.SuicideString			= "couldn't take the pressure and committed suicide."
 GM.TeamBased 				= true
 
 
-// Called on gamemdoe initialization to create teams
+-- Called on gamemode initialization to create teams
 function GM:CreateTeams()
 	if !GAMEMODE.TeamBased then
 		return
@@ -65,3 +66,4 @@ function GM:CreateTeams()
 	team.SetSpawnPoint(TEAM_PROPS, {"info_player_terrorist", "info_player_rebel", "info_player_deathmatch", "info_player_allies"})
 	team.SetClass(TEAM_PROPS, {"Prop"})
 end
+

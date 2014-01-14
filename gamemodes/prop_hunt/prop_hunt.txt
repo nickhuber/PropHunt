@@ -13,7 +13,6 @@
         "selectable"            "1"
         
 	"menusystem"	"1"
-	"workshopid"	"135509255"
 
 	"settings"
 	{
