@@ -15,11 +15,9 @@ A: Just press 'F3'
 Q: How do I play the game? 
 A: You need at least one player for team (Props and Hunters). The props (initially with the Dr. Kleiner's skin) need to find a prop in a map and press 'E' to disguise as a prop. The Hunters need to fund props, and kill them. If a hunter shoot at the enemy team, he will gain life, else it will lost life. 
 
-Q: How do I use the fretta map vote? 
-A: Now it won't work well. I'll try to fix it. Now you can only manually select a map from server. 
 
 FOUND A BUG? 
-Just fill this form: http://goo.gl/dVLmJ - If you can, please give a log. 
+Enter an issue in the github issue tracker: https://github.com/nickhuber/PropHunt/issues
 
 
 CREDITS: 
