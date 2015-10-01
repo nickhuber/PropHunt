@@ -5,7 +5,7 @@ include("sh_player.lua")
 
 -- Include the configuration for this map
 if file.Exists("../gamemodes/prop_hunt/gamemode/maps/"..game.GetMap()..".lua", "LUA") || file.Exists("../lua_temp/prop_hunt/gamemode/maps/"..game.GetMap()..".lua", "LUA") then
-	include("maps/"..game.GetMap()..".lua")
+    include("maps/"..game.GetMap()..".lua")
 end
 
 
@@ -15,10 +15,10 @@ IncludePlayerClasses()
 
 
 -- Information about the gamemode
-GM.Name		= "Prop Hunt"
-GM.Author	= "Modified by Rhakyr, based off of Kow@lski (Original by AMT)"
-GM.Email	= "kowalski.7cc@xspacesoft.com"
-GM.Website	= "https://github.com/nickhuber/PropHunt"
+GM.Name = "Prop Hunt"
+GM.Author = "Modified by Rhakyr, based off of Kow@lski (Original by AMT)"
+GM.Email = "kowalski.7cc@xspacesoft.com"
+GM.Website = "https://github.com/nickhuber/PropHunt"
 
 
 -- Help info
@@ -34,38 +34,37 @@ Both teams can press [F3] to play a taunt sound.]]
 
 
 -- Fretta configuration
-GM.AddFragsToTeamScore			= true
-GM.CanOnlySpectateOwnTeam 		= true
-GM.Data 				= {}
-GM.EnableFreezeCam			= true
-GM.GameLength				= GAME_TIME
-GM.NoAutomaticSpawning			= true
-GM.NoNonPlayerPlayerDamage		= true
-GM.NoPlayerPlayerDamage 		= false
-GM.NoPlayerTeamDamage			= true
-GM.RoundBased				= true
-GM.RoundLimit				= ROUNDS_PER_MAP
-GM.RoundLength 				= ROUND_TIME
-GM.RoundPreStartTime			= 0
-GM.SelectModel				= false
-GM.SuicideString			= "couldn't take the pressure and committed suicide."
-GM.TeamBased 				= true
+GM.AddFragsToTeamScore = true
+GM.CanOnlySpectateOwnTeam = true
+GM.Data = {}
+GM.EnableFreezeCam = true
+GM.GameLength = GAME_TIME
+GM.NoAutomaticSpawning = true
+GM.NoNonPlayerPlayerDamage = true
+GM.NoPlayerPlayerDamage = false
+GM.NoPlayerTeamDamage = true
+GM.RoundBased = true
+GM.RoundLimit = ROUNDS_PER_MAP
+GM.RoundLength = ROUND_TIME
+GM.RoundPreStartTime = 0
+GM.SelectModel = false
+GM.SuicideString = "couldn't take the pressure and committed suicide."
+GM.TeamBased = true
 
 
 -- Called on gamemode initialization to create teams
 function GM:CreateTeams()
-	if !GAMEMODE.TeamBased then
-		return
-	end
-	
-	TEAM_HUNTERS = 1
-	team.SetUp(TEAM_HUNTERS, "Hunters", Color(150, 205, 255, 255))
-	team.SetSpawnPoint(TEAM_HUNTERS, {"info_player_counterterrorist", "info_player_combine", "info_player_deathmatch", "info_player_axis"})
-	team.SetClass(TEAM_HUNTERS, {"Hunter"})
+    if !GAMEMODE.TeamBased then
+        return
+    end
 
-	TEAM_PROPS = 2
-	team.SetUp(TEAM_PROPS, "Props", Color(255, 60, 60, 255))
-	team.SetSpawnPoint(TEAM_PROPS, {"info_player_terrorist", "info_player_rebel", "info_player_deathmatch", "info_player_allies"})
-	team.SetClass(TEAM_PROPS, {"Prop"})
+    TEAM_HUNTERS = 1
+    team.SetUp(TEAM_HUNTERS, "Hunters", Color(150, 205, 255, 255))
+    team.SetSpawnPoint(TEAM_HUNTERS, {"info_player_counterterrorist", "info_player_combine", "info_player_deathmatch", "info_player_axis"})
+    team.SetClass(TEAM_HUNTERS, {"Hunter"})
+
+    TEAM_PROPS = 2
+    team.SetUp(TEAM_PROPS, "Props", Color(255, 60, 60, 255))
+    team.SetSpawnPoint(TEAM_PROPS, {"info_player_terrorist", "info_player_rebel", "info_player_deathmatch", "info_player_allies"})
+    team.SetClass(TEAM_PROPS, {"Prop"})
 end
-
