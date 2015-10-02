@@ -6,18 +6,18 @@
 
     "fretta_maps"
         {
-            "1"     "cs_"
-            "2"     "de_"
-            "3"    "ph_"
+            "1" "cs_"
+            "2" "de_"
+            "3" "ph_"
         }
-        "selectable"    "1"
+    "selectable" "1"
 
-    "menusystem"    "1"
+    "menusystem" "1"
 
     "settings"
     {
-        //For some reason these values do not create / update convars within the game.
-        //You must manually set them via the console in order for them to change (similar to games like TTT)
+        // For some reason these values do not create / update convars within the game.
+        // You must manually set them via the console in order for them to change (similar to games like TTT)
     }
 
 }

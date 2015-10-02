@@ -23,18 +23,18 @@ function GM:CalcView(pl, origin, angles, fov)
     else
          local wep = pl:GetActiveWeapon()
          if wep && wep != NULL then
-             local func = wep.GetViewModelPosition
-             if func then
-				 -- Note: *1 to copy the object so the child function can't edit it.
-                 view.vm_origin, view.vm_angles = func(wep, origin * 1, angles * 1)
-             end
+            local func = wep.GetViewModelPosition
+            if func then
+			    -- Note: *1 to copy the object so the child function can't edit it.
+                view.vm_origin, view.vm_angles = func(wep, origin * 1, angles * 1)
+            end
 
-             local func = wep.CalcView
-             if func then
-				 -- Note: *1 to copy the object so the child function can't edit it.
-                 view.origin, view.angles, view.fov = func(wep, pl, origin * 1, angles * 1, fov)
-             end
-         end
+            local func = wep.CalcView
+            if func then
+				-- Note: *1 to copy the object so the child function can't edit it.
+                view.origin, view.angles, view.fov = func(wep, pl, origin * 1, angles * 1, fov)
+            end
+        end
     end
     return view
 end
@@ -68,15 +68,16 @@ hook.Add("HUDPaint", "PH_HUDPaint", HUDPaint)
 -- Called immediately after starting the gamemode
 function Initialize()
     hullz = 80
-    --surface.CreateFont("Arial", 14, 1200, true, false, "ph_arial")
-    surface.CreateFont( "MyFont",
-    {
-        font = "Arial",
-        size = 14,
-        weight = 1200,
-        antialias = true,
-        underline = false
-    })
+    surface.CreateFont(
+        "MyFont",
+        {
+            font = "Arial",
+            size = 14,
+            weight = 1200,
+            antialias = true,
+            underline = false
+        }
+    )
 end
 hook.Add("Initialize", "PH_Initialize", Initialize)
 

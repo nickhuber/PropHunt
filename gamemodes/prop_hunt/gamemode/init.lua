@@ -98,7 +98,9 @@ end
 
 -- Called when a player tries to use an object
 function GM:PlayerUse(pl, ent)
-    if !pl:Alive() || pl:Team() == TEAM_SPECTATOR then return false end
+    if !pl:Alive() || pl:Team() == TEAM_SPECTATOR then
+        return false
+    end
 
     if pl:Team() == TEAM_PROPS && pl:IsOnGround() && !pl:Crouching() && table.HasValue(USABLE_PROP_ENTITIES, ent:GetClass()) && ent:GetModel() then
         if table.HasValue(BANNED_PROP_MODELS, ent:GetModel()) then
@@ -268,7 +270,6 @@ function GM:Think()
     -- Calculate the location and direction of every Prop's prop entity.
     for _, pl in pairs(team.GetPlayers(TEAM_PROPS)) do
         -- Check for a valid player/prop, and if they aren't freezing their prop.
-        -- if pl && pl:IsValid() && pl:Alive() && pl.ph_prop && pl.ph_prop:IsValid() && !(pl:KeyDown(IN_ATTACK2) && pl:GetVelocity():Length() == 0) then
         if pl && pl:IsValid() && pl:Alive() && pl.ph_prop && pl.ph_prop:IsValid() then
             pl.ph_prop:SetPos(pl:GetPos() - Vector(0, 0, pl.ph_prop:OBBMins().z))
             if pl.ph_prop.prop_angle != nil then

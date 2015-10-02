@@ -1,11 +1,16 @@
 -- Finds the player meta table or terminates
 local meta = FindMetaTable("Player")
-if !meta then return end
+
+if !meta then
+    return
+end
 
 
 -- Blinds the player by setting view out into the void
 function meta:Blind(bool)
-    if !self:IsValid() then return end
+    if !self:IsValid() then
+        return
+    end
 
     if SERVER then
         umsg.Start("SetBlind", self)
@@ -21,12 +26,13 @@ function meta:Blind(bool)
 end
 
 
--- Blinds the player by setting view out into the void
+-- Removes the player prop if it exists.
 function meta:RemoveProp()
-    if CLIENT || !self:IsValid() then return end
-
-    if self.ph_prop && self.ph_prop:IsValid() then
-        self.ph_prop:Remove()
-        self.ph_prop = nil
+    -- If we are executing from client side or the player/player's prop isn't valid, terminate.
+    if CLIENT || !self:IsValid() || !self.ph_prop || !self.ph_prop:IsValid() then
+        return
     end
+
+    self.ph_prop:Remove()
+    self.ph_prop = nil
 end

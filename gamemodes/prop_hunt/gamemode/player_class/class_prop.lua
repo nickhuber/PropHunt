@@ -19,7 +19,7 @@ end
 
 -- Called when player spawns with this class
 function CLASS:OnSpawn(pl)
-    pl:SetColor( Color(255, 255, 255, 0))
+    pl:SetColor(Color(255, 255, 255, 0))
 
     pl.ph_prop = ents.Create("ph_prop")
     pl.ph_prop:SetPos(pl:GetPos())

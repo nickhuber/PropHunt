@@ -2,7 +2,7 @@
 include("shared.lua")
 
 
--- Called every frame?
+-- Draw the model
 function ENT:Draw()
     self.Entity:DrawModel()
 end

@@ -1,10 +1,10 @@
-PropHunt plays much like a Hide and Seek. Players on the RED team, disguised as props, are given a 30 second set up time to hide, and afterwards players on the BLU team attempt to find and kill them in the allotted time period. At the end of each round the teams are swapped; the Hunters (BLU) become the Hunted (RED) and vice versa. Respawns are not permitted until the end of each round. 
-Originally made for TF2. 
+PropHunt plays much like a Hide and Seek. One team disguises as props and are given a 30 second set up time to hide. Afterwards players on the other team attempt to find and kill them in the allotted time period. At the end of each round the teams are swapped; the Hunters become the Hunted and vice versa. Respawns are not permitted until the end of each round.
+Originally made for TF2.
 
 
-F.A.Q. 
-Q: How do i disguise as a prop? 
-A: First you need to be in the prop team. You need also a map with props, an when you are in front of it, press 'E'. 
+F.A.Q.
+Q: How do i disguise as a prop?
+A: First you need to be in the prop team. You need also a map with props, an when you are in front of it, press 'E'.
 
 Q: How do I change a team?
 A: Just press 'F2'
@@ -12,21 +12,21 @@ A: Just press 'F2'
 Q: How do I play a taunt?
 A: Just press 'F3'
 
-Q: How do I play the game? 
-A: You need at least one player for team (Props and Hunters). The props (initially with the Dr. Kleiner's skin) need to find a prop in a map and press 'E' to disguise as a prop. The Hunters need to fund props, and kill them. If a hunter shoot at the enemy team, he will gain life, else it will lost life. 
+Q: How do I play the game?
+A: You need at least one player for team (Props and Hunters). The props (initially with the Dr. Kleiner's skin) need to find a prop in a map and press 'E' to disguise as a prop. The Hunters need to fund props, and kill them. If a hunter shoot at the enemy team, he will gain life, else it will lost life.
 
 
-FOUND A BUG? 
+FOUND A BUG?
 Enter an issue in the github issue tracker: https://github.com/nickhuber/PropHunt/issues
 
 
-CREDITS: 
-Credit goes for the original authors of both gamemodes and who made Prop Hunt compatible with GMOD 13. 
-Originally written and released by Darkimmortal (TF2) 
-If you are the autor or if you have credit, and you won't see the mod on the workshop anymore don't hesitate to contact me. I just published to Workshop and fixed something. 
+CREDITS:
+Credit goes for the original authors of both gamemodes and who made Prop Hunt compatible with GMOD 13.
+Originally written and released by Darkimmortal (TF2)
+If you are the author or if you have credit, and you won't see the mod on the workshop anymore don't hesitate to contact me. I just published to Workshop and fixed something.
 
 
-Tested on Windows, Mac and Ubuntu Linux. 
+Tested on Windows, Mac and Ubuntu Linux.
 
-DEPENDENCIES: 
+DEPENDENCIES:
 THIS MOD COULD REQUIRE CS:S (For some maps)

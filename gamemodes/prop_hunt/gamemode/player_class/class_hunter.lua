@@ -34,21 +34,19 @@ end
 
 -- Called when player spawns with this class
 function CLASS:OnSpawn(pl)
-    local unlock_time = math.Clamp(GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt() - (CurTime() - GetGlobalFloat("RoundStartTime", 0)), 0, GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt())
-
-    --function MyLockFunc()
-    --function MyUnlockFunc()
+    local unlock_time = math.Clamp(
+        GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt() - (CurTime() - GetGlobalFloat("RoundStartTime", 0)),
+        0,
+        GetConVar("HUNTER_BLINDLOCK_TIME"):GetInt()
+    )
 
     local unblindfunc = function()
-        --MyUnblindFunc(pl.Blind(false))
         pl:Blind(false)
     end
     local lockfunc = function()
-        --MyLockFunc(pl.Lock())
         pl.Lock(pl)
     end
     local unlockfunc = function()
-        --MyUnlockFunc(pl.UnLock())
         pl.UnLock(pl)
     end
 
